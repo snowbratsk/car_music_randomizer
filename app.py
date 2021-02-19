@@ -1,4 +1,7 @@
-import sys, os
+import sys
+import os
+import random
+import shutil
 
 
 def get_params():
@@ -54,8 +57,18 @@ def get_params():
 
 def main(args):
     directory, flash, limit = args
-    print(args)
-    print(directory, flash, limit)
+    print("OK, arguments are:{} {} {}".format(directory, flash, str(limit)))
+    print("Let's start!")
+    all_music = []
+    for file in os.listdir(directory):
+        if file.endswith(".mp3"):
+            all_music.append(file)
+    print("{} files found in {}".format(str(len(all_music)), directory))
+    random_music = random.sample(all_music, min(len(all_music), limit))
+    digit = 0
+    for file in random_music:
+        digit += 1
+        shutil.copyfile(directory + "\\" + file, flash + "\\" + str(digit) + " " + file)
 
 
 if __name__ == "__main__":
