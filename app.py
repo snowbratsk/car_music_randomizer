@@ -3,6 +3,8 @@ import os
 import random
 import shutil
 
+from progress.bar import IncrementalBar
+
 
 def get_params():
     if len(sys.argv) == 4:
@@ -66,9 +68,14 @@ def main(args):
     print("{} files found in {}".format(str(len(all_music)), directory))
     random_music = random.sample(all_music, min(len(all_music), limit))
     digit = 0
+    bar = IncrementalBar("Processing...", max=len(random_music))
     for file in random_music:
         digit += 1
         shutil.copyfile(directory + "\\" + file, flash + "\\" + str(digit) + " " + file)
+        bar.next()
+
+    bar.finish()
+    print("Job well done! {} files copied to {}".format(len(random_music), flash))
 
 
 if __name__ == "__main__":
